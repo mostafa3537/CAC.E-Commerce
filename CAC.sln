@@ -5,6 +5,18 @@ VisualStudioVersion = 17.13.35913.81 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Domain", "CAC.Domain\CAC.Domain.csproj", "{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		CAC.drawio = CAC.drawio
+		MACHINE TEST - L1.pdf = MACHINE TEST - L1.pdf
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Application", "CAC.Application\CAC.Application.csproj", "{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Infrastrucure", "CAC.Infrastrucure\CAC.Infrastrucure.csproj", "{B959C02A-08A9-40A9-AFE8-AD0EB866149C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Api", "CAC.Api\CAC.Api.csproj", "{1331A3D0-3CD9-4701-8215-2B0EA49834E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +27,18 @@ Global
 		{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B959C02A-08A9-40A9-AFE8-AD0EB866149C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B959C02A-08A9-40A9-AFE8-AD0EB866149C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B959C02A-08A9-40A9-AFE8-AD0EB866149C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B959C02A-08A9-40A9-AFE8-AD0EB866149C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1331A3D0-3CD9-4701-8215-2B0EA49834E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1331A3D0-3CD9-4701-8215-2B0EA49834E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1331A3D0-3CD9-4701-8215-2B0EA49834E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1331A3D0-3CD9-4701-8215-2B0EA49834E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
