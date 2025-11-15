@@ -8,3 +8,8 @@ public record UpdateCustomerProfileCommand(
     string Email
 ) : IRequest<UpdateCustomerProfileResponse>;
 
+public record UpdateCustomerProfileRequest(
+    string Name,
+    string Email
+);
+

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Orders.Queries.GetAllOrders;
 using CAC.Application.Features.Orders.Queries.GetOrderById;
@@ -8,6 +9,7 @@ namespace CAC.Api.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/orders")]
+[Authorize(Roles = "Admin")]
 public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;

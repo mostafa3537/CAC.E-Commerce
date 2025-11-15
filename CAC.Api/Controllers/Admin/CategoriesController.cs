@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Categories.Commands.CreateCategory;
 using CAC.Application.Features.Categories.Commands.UpdateCategory;
@@ -10,6 +11,7 @@ namespace CAC.Api.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/categories")]
+[Authorize(Roles = "Admin")]
 public class CategoriesController : ControllerBase
 {
     private readonly IMediator _mediator;

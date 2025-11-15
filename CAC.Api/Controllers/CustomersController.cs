@@ -1,12 +1,15 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Customers.Queries.GetCustomerProfile;
 using CAC.Application.Features.Customers.Commands.UpdateCustomerProfile;
+using System.Security.Claims;
 
 namespace CAC.Api.Controllers;
 
 [ApiController]
 [Route("api/customers")]
+[Authorize(Roles = "Customer")]
 public class CustomersController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -17,8 +20,9 @@ public class CustomersController : ControllerBase
     }
 
     [HttpGet("me")]
-    public async Task<ActionResult<CustomerProfileDto>> GetProfile([FromQuery] int customerId)
+    public async Task<ActionResult<CustomerProfileDto>> GetProfile()
     {
+        var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
         var result = await _mediator.Send(new GetCustomerProfileQuery(customerId));
         if (result == null)
             return NotFound();
@@ -28,12 +32,10 @@ public class CustomersController : ControllerBase
 
     [HttpPut("me")]
     public async Task<ActionResult<UpdateCustomerProfileResponse>> UpdateProfile(
-        [FromQuery] int customerId,
-        [FromBody] UpdateCustomerProfileCommand command)
+        [FromBody] UpdateCustomerProfileRequest request)
     {
-        if (customerId != command.CustomerId)
-            return BadRequest("Customer ID mismatch.");
-
+        var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+        var command = new UpdateCustomerProfileCommand(customerId, request.Name, request.Email);
         var result = await _mediator.Send(command);
         return Ok(result);
     }

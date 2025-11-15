@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Products.Commands.CreateProduct;
 using CAC.Application.Features.Products.Commands.UpdateProduct;
@@ -10,6 +11,7 @@ namespace CAC.Api.Controllers.Admin;
 
 [ApiController]
 [Route("api/admin/products")]
+[Authorize(Roles = "Admin")]
 public class ProductsController : ControllerBase
 {
     private readonly IMediator _mediator;
