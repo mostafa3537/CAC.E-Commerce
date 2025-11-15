@@ -11,10 +11,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CAC.Application\CAC.Application.csproj" />
     <ProjectReference Include="..\CAC.Infrastrucure\CAC.Infrastrucure.csproj" />
   </ItemGroup>
 

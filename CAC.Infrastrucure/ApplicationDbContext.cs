@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using CAC.Domain.Entities;
 
-namespace CAC.Infrastrucure.Data;
+namespace CAC.Infrastrucure;
 
 public class ApplicationDbContext : DbContext
 {
