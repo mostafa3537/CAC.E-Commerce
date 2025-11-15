@@ -73,5 +73,26 @@ public class Product
         IsActive = false;
         UpdatedDate = DateTime.UtcNow;
     }
+
+    public void ReduceStock(int quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("Quantity must be greater than 0.", nameof(quantity));
+
+        if (StockQuantity < quantity)
+            throw new InvalidOperationException($"Insufficient stock. Available: {StockQuantity}, Requested: {quantity}.");
+
+        StockQuantity -= quantity;
+        UpdatedDate = DateTime.UtcNow;
+    }
+
+    public void RestoreStock(int quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("Quantity must be greater than 0.", nameof(quantity));
+
+        StockQuantity += quantity;
+        UpdatedDate = DateTime.UtcNow;
+    }
 }
 
