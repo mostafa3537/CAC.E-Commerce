@@ -1,0 +1,35 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CAC.Domain.Entities;
+
+namespace CAC.Infrastrucure.Configurations;
+
+public class UserConfiguration : IEntityTypeConfiguration<User>
+{
+    public void Configure(EntityTypeBuilder<User> builder)
+    {
+        builder.HasKey(e => e.Id);
+        
+        builder.Property(e => e.Name)
+            .IsRequired()
+            .HasMaxLength(200);
+        
+        builder.Property(e => e.Email)
+            .IsRequired()
+            .HasMaxLength(200);
+        
+        builder.HasIndex(e => e.Email)
+            .IsUnique();
+        
+        builder.Property(e => e.Password)
+            .IsRequired()
+            .HasMaxLength(500);
+        
+        builder.Property(e => e.Role)
+            .IsRequired();
+        
+        builder.Property(e => e.CreatedDate)
+            .IsRequired();
+    }
+}
+
