@@ -38,7 +38,6 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             UserId = refreshTokenEntity.UserId,
             Token = newRefreshToken,
             ExpiresAt = DateTime.UtcNow.AddDays(7),
-            CreatedAt = DateTime.UtcNow,
             IsRevoked = false,
             User = refreshTokenEntity.User
         };

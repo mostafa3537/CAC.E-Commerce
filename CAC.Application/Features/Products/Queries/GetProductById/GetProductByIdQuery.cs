@@ -13,7 +13,7 @@ public record ProductDto(
     string CategoryName,
     int StockQuantity,
     bool IsActive,
-    DateTime CreatedDate,
-    DateTime UpdatedDate
+    DateTime CreationDate,
+    DateTime? UpdationDate
 );
 

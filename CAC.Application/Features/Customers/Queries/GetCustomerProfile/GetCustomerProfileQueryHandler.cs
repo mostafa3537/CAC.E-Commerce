@@ -25,7 +25,7 @@ public class GetCustomerProfileQueryHandler : IRequestHandler<GetCustomerProfile
             customer.Id,
             customer.Name,
             customer.Email,
-            customer.CreatedDate
+            customer.CreationDate
         );
     }
 }

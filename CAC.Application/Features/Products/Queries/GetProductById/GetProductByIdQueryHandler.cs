@@ -31,8 +31,8 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
             product.Category.Name,
             product.StockQuantity,
             product.IsActive,
-            product.CreatedDate,
-            product.UpdatedDate
+            product.CreationDate,
+            product.UpdationDate
         );
     }
 }

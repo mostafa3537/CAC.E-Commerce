@@ -56,8 +56,8 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             product.Category.Name,
             product.StockQuantity,
             product.IsActive,
-            product.CreatedDate,
-            product.UpdatedDate
+            product.CreationDate,
+            product.UpdationDate
         );
     }
 }

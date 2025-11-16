@@ -27,9 +27,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.Property(e => e.Role)
             .IsRequired();
-        
-        builder.Property(e => e.CreatedDate)
-            .IsRequired();
     }
 }
 

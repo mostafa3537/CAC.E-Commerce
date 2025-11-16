@@ -50,8 +50,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             product.Category.Name,
             product.StockQuantity,
             product.IsActive,
-            product.CreatedDate,
-            product.UpdatedDate
+            product.CreationDate,
+            product.UpdationDate
         );
     }
 }

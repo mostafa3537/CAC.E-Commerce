@@ -23,8 +23,8 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
             category.Id,
             category.Name,
             category.Description,
-            category.CreatedDate,
-            category.UpdatedDate
+            category.CreationDate,
+            category.UpdationDate
         );
     }
 }

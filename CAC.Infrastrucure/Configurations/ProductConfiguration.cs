@@ -26,12 +26,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         
         builder.Property(e => e.IsActive)
             .IsRequired();
-        
-        builder.Property(e => e.CreatedDate)
-            .IsRequired();
-        
-        builder.Property(e => e.UpdatedDate)
-            .IsRequired();
 
         builder.HasOne(e => e.Category)
             .WithMany()

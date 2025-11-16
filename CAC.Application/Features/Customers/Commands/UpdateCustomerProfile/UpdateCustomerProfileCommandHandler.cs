@@ -37,7 +37,7 @@ public class UpdateCustomerProfileCommandHandler : IRequestHandler<UpdateCustome
             customer.Id,
             customer.Name,
             customer.Email,
-            customer.CreatedDate
+            customer.CreationDate
         );
     }
 }

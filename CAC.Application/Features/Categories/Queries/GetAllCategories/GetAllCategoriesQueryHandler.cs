@@ -24,8 +24,8 @@ public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuer
             c.Id,
             c.Name,
             c.Description,
-            c.CreatedDate,
-            c.UpdatedDate
+            c.CreationDate,
+            c.UpdationDate
         )).ToList();
     }
 }

@@ -36,8 +36,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
             Name = request.Name,
             Email = request.Email.ToLower(),
             Password = hashedPassword,
-            Role = UserRole.Customer,
-            CreatedDate = DateTime.UtcNow
+            Role = UserRole.Customer
         };
 
         _context.Users.Add(user);

@@ -1,6 +1,8 @@
+using CAC.Domain.Common;
+
 namespace CAC.Domain.Entities;
 
-public class OrderItem
+public class OrderItem : AuditedEntity<int>
 {
     private OrderItem() { } // For EF Core
 
@@ -26,7 +28,6 @@ public class OrderItem
         }
     }
 
-    public int Id { get; private set; }
     public int OrderId { get; private set; }
     public int ProductId { get; private set; }
     public int Quantity { get; private set; }

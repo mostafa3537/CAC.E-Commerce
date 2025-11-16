@@ -38,8 +38,8 @@ public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, L
             p.Category.Name,
             p.StockQuantity,
             p.IsActive,
-            p.CreatedDate,
-            p.UpdatedDate
+            p.CreationDate,
+            p.UpdationDate
         )).ToList();
     }
 }

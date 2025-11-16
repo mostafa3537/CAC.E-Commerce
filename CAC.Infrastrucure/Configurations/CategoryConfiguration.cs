@@ -16,12 +16,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         
         builder.Property(e => e.Description)
             .HasMaxLength(1000);
-        
-        builder.Property(e => e.CreatedDate)
-            .IsRequired();
-        
-        builder.Property(e => e.UpdatedDate)
-            .IsRequired();
     }
 }
 

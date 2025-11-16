@@ -9,7 +9,7 @@ public record CreateProductResponse(
     string CategoryName,
     int StockQuantity,
     bool IsActive,
-    DateTime CreatedDate,
-    DateTime UpdatedDate
+    DateTime CreationDate,
+    DateTime? UpdationDate
 );
 

@@ -35,12 +35,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
         // Save refresh token
-        var refreshTokenEntity = new CAC.Domain.Entities.RefreshToken
+        var refreshTokenEntity = new Domain.Entities.RefreshToken
         {
             UserId = user.Id,
             Token = refreshToken,
             ExpiresAt = DateTime.UtcNow.AddDays(7),
-            CreatedAt = DateTime.UtcNow,
             IsRevoked = false,
             User = user
         };

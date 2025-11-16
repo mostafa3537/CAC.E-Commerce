@@ -8,6 +8,6 @@ public record CustomerProfileDto(
     int Id,
     string Name,
     string Email,
-    DateTime CreatedDate
+    DateTime CreationDate
 );
 

@@ -39,8 +39,8 @@ public class SearchProductsQueryHandler : IRequestHandler<SearchProductsQuery, L
             p.Category.Name,
             p.StockQuantity,
             p.IsActive,
-            p.CreatedDate,
-            p.UpdatedDate
+            p.CreationDate,
+            p.UpdationDate
         )).ToList();
     }
 }

@@ -1,6 +1,8 @@
+using CAC.Domain.Common;
+
 namespace CAC.Domain.Entities;
 
-public class Category
+public class Category : AggregateRoot<int>
 {
     private Category() { }  
 
@@ -8,15 +10,10 @@ public class Category
     {
         Name = name;
         Description = description;
-        CreatedDate = DateTime.UtcNow;
-        UpdatedDate = DateTime.UtcNow;
     }
 
-    public int Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
-    public DateTime CreatedDate { get; private set; }
-    public DateTime UpdatedDate { get; private set; }
 
     public static Category Create(string name, string description)
     {
@@ -33,7 +30,6 @@ public class Category
 
         Name = name;
         Description = description;
-        UpdatedDate = DateTime.UtcNow;
     }
 }
 
