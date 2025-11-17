@@ -1,21 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Domain", "CAC.Domain\CAC.Domain.csproj", "{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAC.Domain", "CAC.Domain\CAC.Domain.csproj", "{887E1847-DAB3-4B88-892E-4B49FD7F9BBA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAC.Application", "CAC.Application\CAC.Application.csproj", "{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAC.Infrastrucure", "CAC.Infrastrucure\CAC.Infrastrucure.csproj", "{B959C02A-08A9-40A9-AFE8-AD0EB866149C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAC.Api", "CAC.Api\CAC.Api.csproj", "{1331A3D0-3CD9-4701-8215-2B0EA49834E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B7CE3FF2-7BAF-4794-A939-9178A3473548}"
 	ProjectSection(SolutionItems) = preProject
-		CAC.drawio = CAC.drawio
-		MACHINE TEST - L1.pdf = MACHINE TEST - L1.pdf
+		requirement.md = requirement.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Application", "CAC.Application\CAC.Application.csproj", "{D3AF01BB-272B-42F1-AB5A-78E7E49AFA82}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Infrastrucure", "CAC.Infrastrucure\CAC.Infrastrucure.csproj", "{B959C02A-08A9-40A9-AFE8-AD0EB866149C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAC.Api", "CAC.Api\CAC.Api.csproj", "{1331A3D0-3CD9-4701-8215-2B0EA49834E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
