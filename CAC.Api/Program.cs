@@ -6,13 +6,14 @@ using System.Text;
 using FluentValidation;
 using CAC.Infrastrucure;
 using CAC.Application.Services;
+using CAC.Domain.Services;
 using Serilog;
 
 namespace CAC.Api;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         // Configure Serilog
         Log.Logger = new LoggerConfiguration()
@@ -44,7 +45,8 @@ public class Program
 			builder.Services.AddValidatorsFromAssembly(typeof(CAC.Application.Features.Categories.Commands.CreateCategory.CreateCategoryCommandValidator).Assembly);
 
 			// Register services
-			builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+			builder.Services.AddScoped<Domain.Services.IPasswordHasher, PasswordHasher>();
+			builder.Services.AddScoped<Application.Services.IPasswordHasher, PasswordHasher>();
 			builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 			// Configure JWT Authentication
@@ -78,12 +80,21 @@ public class Program
 			// Add in-memory caching
 			builder.Services.AddMemoryCache();
 
+			// Add HttpContextAccessor for audit fields
+			builder.Services.AddHttpContextAccessor();
+
+			// Register DataSeeder
+			builder.Services.AddScoped<DataSeeder>();
+
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "CAC API", Version = "v1" });
+
+				// Use fully qualified names for schema IDs to avoid conflicts
+				c.CustomSchemaIds(type => type.FullName);
 
 				// Add JWT authentication to Swagger
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -126,6 +137,22 @@ public class Program
 			app.UseAuthorization();
 
 			app.MapControllers();
+
+			// Seed database
+			using (var scope = app.Services.CreateScope())
+			{
+				var services = scope.ServiceProvider;
+				try
+				{
+					var seeder = services.GetRequiredService<DataSeeder>();
+					await seeder.SeedAsync();
+					Log.Information("Database seeding completed.");
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex, "An error occurred while seeding the database.");
+				}
+			}
 
 			try
 			{

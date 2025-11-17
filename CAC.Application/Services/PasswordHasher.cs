@@ -1,4 +1,5 @@
 using BCrypt.Net;
+using CAC.Domain.Services;
 
 namespace CAC.Application.Services;
 
