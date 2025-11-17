@@ -2137,7 +2137,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "/"
+			"value": "https://localhost:5001"
 		}
 	]
 }
