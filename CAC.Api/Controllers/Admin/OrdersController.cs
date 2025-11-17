@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Orders.Queries.GetAllOrders;
 using CAC.Application.Features.Orders.Queries.GetOrderById;
 using CAC.Application.Features.Orders.Commands.UpdateOrderStatus;
+using CAC.Application.Common.Models;
 
 namespace CAC.Api.Controllers.Admin;
 
@@ -20,9 +21,17 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<OrderDto>>> GetAll()
+    public async Task<ActionResult<PagedResult<OrderDto>>> GetAll(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string? sortBy = null,
+        [FromQuery] string sortDirection = "desc")
     {
-        var result = await _mediator.Send(new GetAllOrdersQuery());
+        var result = await _mediator.Send(new GetAllOrdersQuery(
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection));
         return Ok(result);
     }
 

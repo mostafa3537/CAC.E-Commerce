@@ -6,6 +6,7 @@ using System.Text;
 using FluentValidation;
 using CAC.Infrastrucure;
 using CAC.Application.Services;
+using Serilog;
 
 namespace CAC.Api;
 
@@ -13,103 +14,137 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        // Configure Serilog
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 
-        // Add services to the container.
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+		try
+		{
+			Log.Information("Starting web application");
 
-        // Register MediatR
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(typeof(CAC.Application.Features.Categories.Commands.CreateCategory.CreateCategoryCommand).Assembly);
-            cfg.AddOpenBehavior(typeof(CAC.Application.Common.Behaviors.ValidationBehavior<,>));
-        });
+			var builder = WebApplication.CreateBuilder(args);
 
-        // Register FluentValidation
-        builder.Services.AddValidatorsFromAssembly(typeof(CAC.Application.Features.Categories.Commands.CreateCategory.CreateCategoryCommandValidator).Assembly);
+			// Use Serilog for logging
+			builder.Host.UseSerilog();
 
-        // Register services
-        builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-        builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+			// Add services to the container.
+			builder.Services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        // Configure JWT Authentication
-        var jwtSettings = builder.Configuration.GetSection("Jwt");
-        var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLongForSecurity!";
-        var issuer = jwtSettings["Issuer"] ?? "CAC";
-        var audience = jwtSettings["Audience"] ?? "CAC";
+			// Register MediatR
+			builder.Services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(typeof(CAC.Application.Features.Categories.Commands.CreateCategory.CreateCategoryCommand).Assembly);
+				cfg.AddOpenBehavior(typeof(CAC.Application.Common.Behaviors.ValidationBehavior<,>));
+			});
 
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                ValidateIssuer = true,
-                ValidIssuer = issuer,
-                ValidateAudience = true,
-                ValidAudience = audience,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        });
+			// Register FluentValidation
+			builder.Services.AddValidatorsFromAssembly(typeof(CAC.Application.Features.Categories.Commands.CreateCategory.CreateCategoryCommandValidator).Assembly);
 
-        builder.Services.AddAuthorization();
+			// Register services
+			builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+			builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "CAC API", Version = "v1" });
-            
-            // Add JWT authentication to Swagger
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
-            });
+			// Configure JWT Authentication
+			var jwtSettings = builder.Configuration.GetSection("Jwt");
+			var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLongForSecurity!";
+			var issuer = jwtSettings["Issuer"] ?? "CAC";
+			var audience = jwtSettings["Audience"] ?? "CAC";
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-        });
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+					ValidateIssuer = true,
+					ValidIssuer = issuer,
+					ValidateAudience = true,
+					ValidAudience = audience,
+					ValidateLifetime = true,
+					ClockSkew = TimeSpan.Zero
+				};
+			});
 
-        var app = builder.Build();
+			builder.Services.AddAuthorization();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+			// Add in-memory caching
+			builder.Services.AddMemoryCache();
 
-        app.UseHttpsRedirection();
+			builder.Services.AddControllers();
+			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "CAC API", Version = "v1" });
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+				// Add JWT authentication to Swagger
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer"
+				});
 
-        app.MapControllers();
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+				{
+					new OpenApiSecurityScheme
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.SecurityScheme,
+							Id = "Bearer"
+						}
+					},
+					Array.Empty<string>()
+				}
+				});
+			});
 
-        app.Run();
-    }
+			var app = builder.Build();
+
+			// Configure the HTTP request pipeline.
+			if (app.Environment.IsDevelopment())
+			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+			}
+
+			app.UseHttpsRedirection();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
+
+			app.MapControllers();
+
+			try
+			{
+				Log.Information("Application started successfully");
+				app.Run();
+			}
+			catch (Exception ex)
+			{
+				Log.Fatal(ex, "Application terminated unexpectedly");
+			}
+			finally
+			{
+				Log.CloseAndFlush();
+			}
+		}
+		catch (Exception ex)
+		{
+			Log.Fatal(ex, "Application terminated unexpectedly");
+		}
+
+	}
 }

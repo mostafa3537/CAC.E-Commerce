@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CAC.Application.Features.Products.Queries.GetAllProducts;
 using CAC.Application.Features.Products.Queries.GetProductById;
 using CAC.Application.Features.Products.Queries.SearchProducts;
+using CAC.Application.Common.Models;
 
 namespace CAC.Api.Controllers;
 
@@ -18,9 +19,19 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ProductDto>>> GetAll()
+    public async Task<ActionResult<PagedResult<ProductDto>>> GetAll(
+        [FromQuery] bool includeInactive = false,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string? sortBy = null,
+        [FromQuery] string sortDirection = "asc")
     {
-        var result = await _mediator.Send(new GetAllProductsQuery(false));
+        var result = await _mediator.Send(new GetAllProductsQuery(
+            includeInactive,
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection));
         return Ok(result);
     }
 
@@ -35,9 +46,19 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<List<ProductDto>>> Search([FromQuery] string? name)
+    public async Task<ActionResult<PagedResult<ProductDto>>> Search(
+        [FromQuery] string? name = null,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string? sortBy = null,
+        [FromQuery] string sortDirection = "asc")
     {
-        var result = await _mediator.Send(new SearchProductsQuery(name));
+        var result = await _mediator.Send(new SearchProductsQuery(
+            name,
+            pageNumber,
+            pageSize,
+            sortBy,
+            sortDirection));
         return Ok(result);
     }
 }
